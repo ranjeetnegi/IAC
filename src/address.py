@@ -6,7 +6,7 @@ class Address:
         self.block = block
         self.pin = pin
         self.phone = phone
-    
+
     def __lt__(self, other):
         val1, val2 = self.__evaluate(other)
         if val1 < val2:
@@ -18,23 +18,23 @@ class Address:
         val1 = len(self.address)
         val2 = len(other.address)
         return val1, val2
-    
+
     def print_attributes(self):
         data = ""
-        if self.state != None:
+        if self.state is not None:
             data = data + " State:" + self.state
-        if self.district != None:
+        if self.district is not None:
             data = data + ",District:" + self.district
-        if self.block != None:
-            data = data + ",Block:"+ self.block
-        if self.pin != None:
-            data = data +",Pin:" + self.pin
-        if self.phone != None:
-            data = data +",Phone:" + self.phone
-        if self.address != None:
-            data = data +" Address:" + self.address
+        if self.block is not None:
+            data = data + ",Block:" + self.block
+        if self.pin is not None:
+            data = data + ",Pin:" + self.pin
+        if self.phone is not None:
+            data = data + ",Phone:" + self.phone
+        if self.address is not None:
+            data = data + " Address:" + self.address
         print(data)
-    
+
     def capitalize_address(self):
         address_tokens = self.address.split(" ")
         capital_word_array = []

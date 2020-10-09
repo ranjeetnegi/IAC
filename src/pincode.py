@@ -1,5 +1,5 @@
-from services.pinlocationmapper import PinLocationMapper
-from services.utility import Utility
+from src.pinlocationmapper import PinLocationMapper
+from src.utility import Utility
 import re
 
 
@@ -83,7 +83,8 @@ class PinCode:
         if len(pin_regex_5_matches) > 0:
             #print("match 5")
             for match in pin_regex_5_matches:
-                padded_match = space + pad_word + match.replace(" ", "") + pad_word + space
+                prefix = match[0]
+                padded_match = prefix + space + pad_word + match.replace(" ", "") + pad_word + space
                 text = text.replace(match, padded_match)
             return text
         if len(pin_regex_6_matches) > 0:
@@ -129,5 +130,8 @@ class PinCode:
             return address
 
     def get_pin_code_hilighted(self, address_obj):
+        print(address_obj.address)
         highlighted_pin_code_regex = "[*]\d{6}[*]"
-        return list(set(re.findall(highlighted_pin_code_regex, address_obj.address)))
+        pin_codes = re.findall(highlighted_pin_code_regex, address_obj.address)
+        print(pin_codes)
+        return list(set(pin_codes))

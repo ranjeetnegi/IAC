@@ -2,11 +2,11 @@ import os
 import re
 import sys
 from os import listdir
-from model.address import Address
-from services.utility import Utility
-from services.pincode import PinCode
-from services.phonenumber import PhoneNumber
-from services.msoffice import MsOffice
+from src.address import Address
+from src.utility import Utility
+from src.pincode import PinCode
+from src.phonenumber import PhoneNumber
+from src.msoffice import MsOffice
 from pathlib import Path
 
 
@@ -19,7 +19,7 @@ class Main:
         self.utility = Utility()
         self.pincode = PinCode()
         self.phone_number = PhoneNumber()
-        self.output_dir = "../../output_dir/"
+        self.output_dir = "output_dir/"
         self.ms_office = MsOffice()
         self.utility = Utility()
 
@@ -58,8 +58,8 @@ class Main:
             print(output_file_name_xls)
             self.ms_office.export_to_MS_Excel(address_list, output_file_name_xls)
 
-            #self.ms_office.export_to_MS_word(address_list[4500:],output_file_name_docx)
-            # output_file_name_docx = utility.genrate_output_file_name("KA.docx")
+            output_file_name_docx = self.output_dir + self.utility.generate_output_file_name(file_base_name, "docx")
+            self.ms_office.export_to_MS_word(address_list,output_file_name_docx)
 
 
     def get_address_list(self, text):
@@ -91,11 +91,9 @@ class Main:
         return address_list
 
     def read_from_file(self, file_name):
-        f = open(file_name, "r")
-        text = f.read()
-        f.close()
+        with open(file_name, "r", encoding="utf-8") as f:
+            text = f.read()
         return text
-
 
 if __name__ == "__main__":
     main_obj = Main()

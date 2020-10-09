@@ -4,7 +4,7 @@ from xlwt import Workbook
 from docx import Document
 import math
 
-from model.address import Address
+from src.address import Address
 
 
 class MsOffice:
