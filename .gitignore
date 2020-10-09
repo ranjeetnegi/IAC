@@ -1,0 +1,42 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+/nbproject/
+nbactions.xml
+
+src/main/resources/application.properties
+.mvn
+
+*.log
+logs/all.log
+logs/app.log
+logs/orm.log
+logs/spring.log
+application.log
+
+output_dir/
+output_dir/*.*
+
+*.egg-info
+*.pyc

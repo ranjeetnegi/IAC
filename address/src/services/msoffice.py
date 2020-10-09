@@ -2,10 +2,9 @@ import xlwt
 import xlrd
 from xlwt import Workbook
 from docx import Document
-from datetime import date, time, datetime
 import math
 
-from src.address import Address
+from model.address import Address
 
 
 class MsOffice:
@@ -21,7 +20,7 @@ class MsOffice:
         for i, address in enumerate(address_list):
             row = i % number_of_rows
             col = math.floor(i / number_of_rows)
-            print("Updating row : " + str(row) + " col : " + str(col) + " address: "+ address.address)
+            print("Updating row : " + str(row) + " col : " + str(col) + " address: " + address.address)
             cell = table.cell(row, col)
             cell.text = address.address
         document.save(file_name)
@@ -40,14 +39,14 @@ class MsOffice:
                 continue
             address = address_list[row_number - 1]
             try:
-                if address.pin != None and address.phone != None:
+                if address.pin is not None and address.phone is not None:
                     sheet1.write(row_number, 0, address.address)
                     sheet1.write(row_number, 1, address.state)
                     sheet1.write(row_number, 2, address.district)
                     sheet1.write(row_number, 3, address.block)
                     sheet1.write(row_number, 4, address.pin)
                     sheet1.write(row_number, 5, address.phone)
-                elif address.phone != None:
+                elif address.phone is not None:
                     sheet1.write(row_number, 0, address.address, style_alert)
                     sheet1.write(row_number, 1, address.state, style_alert)
                     sheet1.write(row_number, 2, address.district, style_alert)
@@ -66,11 +65,13 @@ class MsOffice:
         wb.save(file_name)
 
     def add_headers_to_sheet(self, worksheet, headers_list):
-        style_bold_black_color = xlwt.easyxf(
-            "align:wrap on; font: bold on, color-index black"
-        )
+        style_bold_black_color = xlwt.easyxf("align:wrap on; font: bold on, color-index black")
         for i, header_name in enumerate(headers_list):
             worksheet.write(0, i, header_name, style_bold_black_color)
+
+    def update_sheet_cell(self, sheet, row, col, data, style):
+        sheet.write(row, col, data, style)
+        return
 
     def import_from_Excel_sheet(self, file_name, sheet_number, address_col):
         wb = xlrd.open_workbook(file_name)
@@ -79,7 +80,7 @@ class MsOffice:
         start_row = 1
         while True:
             address_text = sheet.cell_value(start_row, address_col)
-            if address_text == None or len(address_text) == 0:
+            if address_text is None or len(address_text) == 0:
                 if len(sheet.cell_value(start_row + 1, address_col)) == 0:
                     break
             address_obj = Address(address_text, None, None, None, None, None)

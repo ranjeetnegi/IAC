@@ -22,17 +22,17 @@ class Address:
     def print_attributes(self):
         data = ""
         if self.state != None:
-            data = data + " State : " + self.state
+            data = data + " State:" + self.state
         if self.district != None:
-            data = data + ",District : " + self.district
+            data = data + ",District:" + self.district
         if self.block != None:
-            data = data + ",Block : "+ self.block
+            data = data + ",Block:"+ self.block
         if self.pin != None:
-            data = data +",Pin : " + self.pin
+            data = data +",Pin:" + self.pin
         if self.phone != None:
-            data = data +",Phone : " + self.phone
+            data = data +",Phone:" + self.phone
         if self.address != None:
-            data = data +" Address : " + self.address
+            data = data +" Address:" + self.address
         print(data)
     
     def capitalize_address(self):
