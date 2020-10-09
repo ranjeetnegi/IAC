@@ -1,6 +1,7 @@
 class Address:
     def __init__(self, address, state, district, block, pin, phone):
         self.address = address
+        self.address_old = address
         self.state = state
         self.district = district
         self.block = block
@@ -21,19 +22,27 @@ class Address:
 
     def print_attributes(self):
         data = ""
-        if self.state is not None:
-            data = data + " State:" + self.state
-        if self.district is not None:
-            data = data + ",District:" + self.district
-        if self.block is not None:
-            data = data + ",Block:" + self.block
-        if self.pin is not None:
-            data = data + ",Pin:" + self.pin
-        if self.phone is not None:
-            data = data + ",Phone:" + self.phone
+        # if self.state is not None:
+        #     data = data + " State:" + self.state
+        # if self.district is not None:
+        #     data = data + ",District:" + self.district
+        # if self.block is not None:
+        #     data = data + ",Block:" + self.block
+        # if self.pin is not None:
+        #     data = data + ",Pin:" + self.pin
+        # if self.phone is not None:
+        #     data = data + ",Phone:" + self.phone
         if self.address is not None:
             data = data + " Address:" + self.address
         print(data)
+
+    def print_address_old(self):
+        print(self.address_old)
+        return
+
+    def print_address_new(self):
+        print(self.address)
+        return
 
     def capitalize_address(self):
         address_tokens = self.address.split(" ")

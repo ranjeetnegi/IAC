@@ -29,7 +29,7 @@ class PinCode:
                     address_obj.district = district
                     address_obj.block = block
             if pin is not None:
-                address_obj.address = address_obj.address + " Pin-" + pin
+                address_obj.address = self.utility.white_space_cleaner(address_obj.address) + " Pin-" + pin
         return
 
     def pad_pin_code(self, text_input, pad_word):
@@ -130,8 +130,8 @@ class PinCode:
             return address
 
     def get_pin_code_hilighted(self, address_obj):
-        print(address_obj.address)
+        #print(address_obj.address)
         highlighted_pin_code_regex = "[*]\d{6}[*]"
         pin_codes = re.findall(highlighted_pin_code_regex, address_obj.address)
-        print(pin_codes)
+        #print(pin_codes)
         return list(set(pin_codes))

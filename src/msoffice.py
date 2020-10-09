@@ -16,11 +16,11 @@ class MsOffice:
         no_of_address = len(address_list)
         number_of_rows = math.ceil(no_of_address / 3)
         table = document.add_table(rows=number_of_rows, cols=3)
-        table.style = 'TableGrid'
+        table.style = 'Table Grid'
         for i, address in enumerate(address_list):
             row = i % number_of_rows
             col = math.floor(i / number_of_rows)
-            print("Updating row : " + str(row) + " col : " + str(col) + " address: " + address.address)
+            print("Updating : %s : %s" % (str(i), address.address))
             cell = table.cell(row, col)
             cell.text = address.address
         document.save(file_name)
