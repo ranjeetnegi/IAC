@@ -1,10 +1,11 @@
 import re
 from src.utility import Utility
+from src.phone_number_lookup import PhoneNumberLookup
 
 
 class PhoneNumber:
 
-    def __init__(self):
+    def __init__(self, phone_lookup):
         self.utility = Utility()
         phone_number_prefixes = [" contact no ", " mobile, no ", " mobail no ", " mobile no ", " mobal nbr ", "mobail",
                                  "mobail no",
@@ -13,9 +14,11 @@ class PhoneNumber:
                                  " phone ", ",ph no ", " po no ", " mobil ", " ph no ", " m no_*", " m no/ ",
                                  " mob/*", " c no ", " phon ", " m no ", "phone ", " mob,", ",no *", " mob ", " mb ",
                                  " mob*",
-                                 " no *", ",mo *", " pn ", " po ", " ph ", " nm ", " mo ", " m *", " number "," nub "," mob nub-","no,",
-                                 "phn num,","phn num"]
+                                 " no *", ",mo *", " pn ", " po ", " ph ", " nm ", " mo ", " m *", " number ", " nub ",
+                                 " mob nub-", "no,",
+                                 "phn num,", "phn num"]
         self.phone_number_prefixes = self.utility.reverse_list(sorted(list(set(phone_number_prefixes)), key=len))
+        self.phone_lookup = phone_lookup
 
     def collapse_phone_number(self, text):
         regex_1 = '\d+[ ]\d+[ ]\d+'
@@ -31,7 +34,7 @@ class PhoneNumber:
         space = " "
         self.collapse_phone_number(text)
 
-        regex_1 = "[6-9]\d{9}" # phone number at the beginning
+        regex_1 = "[6-9]\d{9}"  # phone number at the beginning
         regex_2 = "[ ][6-9]\d{9}[ ]|[ ][6-9]\d{9}$"  # " 7534564334 "
         regex_3 = "[6-9]\d{4}[ ]\d{5}"  # "65345 64334"
         regex_4 = "[^*0-9][6-9]\d{9}|[^*0-9][6-9]\d{9}$"  # "n4534564334"
@@ -89,13 +92,24 @@ class PhoneNumber:
                     phone = highlighted_phone.replace("*", "")
                     phone_list.append(phone)
                     address_obj.address = address_obj.address.replace(highlighted_phone, "").strip()
+                    is_reorder = self.phone_lookup.search_phone_number(phone)
+                    if is_reorder:
+                        address_obj.is_reorder = is_reorder
+                    else:
+                        self.phone_lookup.save_phone_number(int(phone))
                 phones_as_string = ",".join(phone_list)
                 address_obj.phone = phones_as_string
                 address_obj.address = address_obj.address + " PH : " + phones_as_string
                 address_obj.address = self.utility.white_space_cleaner(address_obj.address)
+                return address_obj.is_reorder
             elif len(highlighted_phone_list) > 0:
                 highlighted_phone = highlighted_phone_list[0]
                 phone = highlighted_phone.replace("*", "")
                 address_obj.address = (address_obj.address.replace(highlighted_phone, "").strip() + " PH-" + phone)
                 address_obj.address = self.utility.white_space_cleaner(address_obj.address)
                 address_obj.phone = phone
+                is_reorder = self.phone_lookup.search_phone_number(phone)
+                address_obj.is_reorder = is_reorder
+                if not is_reorder:
+                    self.phone_lookup.save_phone_number(int(phone))
+                return is_reorder

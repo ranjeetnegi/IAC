@@ -30,15 +30,26 @@ class MsOffice:
         sheet1 = wb.add_sheet("Sheet 1")
         style_warn = xlwt.easyxf("pattern: pattern solid, fore_colour red;")
         style_alert = xlwt.easyxf("pattern: pattern solid, fore_colour yellow;")
+        style_duplicate = xlwt.easyxf("pattern: pattern solid, fore_colour brown;")
         row_number = -1
         while row_number < len(address_list):
             row_number = row_number + 1
             if row_number == 0:
-                headers_list = ["ADDRESS", "STATE", "DISTRICT", "BLOCK", "PIN", "PHONE"]
+                headers_list = ["ADDRESS", "STATE", "DISTRICT", "BLOCK", "PIN", "PHONE","RE_ORDER"]
                 self.add_headers_to_sheet(sheet1, headers_list)
                 continue
             address = address_list[row_number - 1]
             try:
+                if address.is_reorder:
+                    sheet1.write(row_number, 0, address.address, style_duplicate)
+                    sheet1.write(row_number, 1, address.state, style_duplicate)
+                    sheet1.write(row_number, 2, address.district, style_duplicate)
+                    sheet1.write(row_number, 3, address.block, style_duplicate)
+                    sheet1.write(row_number, 4, address.pin, style_duplicate)
+                    sheet1.write(row_number, 5, address.phone, style_duplicate)
+                    sheet1.write(row_number, 6, "YES", style_duplicate)
+                    continue
+
                 if address.pin is not None and address.phone is not None:
                     sheet1.write(row_number, 0, address.address)
                     sheet1.write(row_number, 1, address.state)
@@ -46,6 +57,7 @@ class MsOffice:
                     sheet1.write(row_number, 3, address.block)
                     sheet1.write(row_number, 4, address.pin)
                     sheet1.write(row_number, 5, address.phone)
+                    sheet1.write(row_number, 6, "NO")
                 elif address.phone is not None:
                     sheet1.write(row_number, 0, address.address, style_alert)
                     sheet1.write(row_number, 1, address.state, style_alert)
@@ -53,6 +65,7 @@ class MsOffice:
                     sheet1.write(row_number, 3, address.block, style_alert)
                     sheet1.write(row_number, 4, address.pin, style_alert)
                     sheet1.write(row_number, 5, address.phone, style_alert)
+                    sheet1.write(row_number, 6, "NO", style_alert)
                 else:
                     sheet1.write(row_number, 0, address.address, style_warn)
                     sheet1.write(row_number, 1, address.state, style_warn)
@@ -60,6 +73,7 @@ class MsOffice:
                     sheet1.write(row_number, 3, address.block, style_warn)
                     sheet1.write(row_number, 4, address.pin, style_warn)
                     sheet1.write(row_number, 5, address.phone, style_warn)
+                    sheet1.write(row_number, 6, "NO", style_warn)
             except:
                 address.print_attributes()
         wb.save(file_name)

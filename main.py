@@ -1,11 +1,13 @@
 import re
 import sys
+import traceback
 from pathlib import Path
 from src.address import Address
 from src.utility import Utility
 from src.pincode import PinCode
 from src.phonenumber import PhoneNumber
 from src.msoffice import MsOffice
+from src.phone_number_lookup import PhoneNumberLookup
 
 
 class Main:
@@ -13,16 +15,20 @@ class Main:
     def __init__(self):
         self.utility = Utility()
         self.pincode = PinCode()
-        self.phone_number = PhoneNumber()
+        self.phone_number_lookup = PhoneNumberLookup()
+        self.phone_number = PhoneNumber(self.phone_number_lookup)
         self.output_dir = "output_dir/"
         self.ms_office = MsOffice()
         self.utility = Utility()
 
+
     def process_addresses(self, addresses_file_text):
+        # print("Main:process_addresses")
         address_list = []
         if addresses_file_text is not None and len(addresses_file_text) > 0:
             address_object_list = self.get_address_list(addresses_file_text)
             for address_obj in address_object_list:
+                # print("Main:process_addresses")
                 try:
                     if not self.utility.is_valid_address(address_obj.address):
                         continue
@@ -34,14 +40,18 @@ class Main:
                     address_string = self.phone_number.mobile_number_text_remover(address_string)
                     address_string = self.pincode.pin_number_text_remover(address_string)
                     address_obj.address = address_string
-
                     self.pincode.update_pin_number(address_obj)
                     self.phone_number.update_phone_number(address_obj)
                     address_obj.address = self.utility.white_space_cleaner(address_obj.address)
                     address_obj.capitalize_address()
                     address_list.append(address_obj)
+                    # print(address_obj.print_attributes())
                 except:
+                    # traceback.print_exception(*sys.exc_info())
+                    # pass
+                    #print("-------------------------")
                     print(address_obj.address)
+
         address_list.sort()
         return address_list
 
@@ -52,15 +62,17 @@ class Main:
         for file_name in files_list:
             addresses_file_text = self.read_from_file(file_name)
             address_list = self.process_addresses(addresses_file_text)
-            self.utility.print_address(address_list)
+            #self.utility.print_address(address_list)
             file_base_name = Path(file_name).stem
 
             output_file_name_xls = self.output_dir + self.utility.generate_output_file_name(file_base_name, "xls")
             #print(output_file_name_xls)
             self.ms_office.export_to_MS_Excel(address_list, output_file_name_xls)
 
-            output_file_name_docx = self.output_dir + self.utility.generate_output_file_name(file_base_name, "docx")
-            self.ms_office.export_to_MS_word(address_list,output_file_name_docx)
+            #output_file_name_docx = self.output_dir + self.utility.generate_output_file_name(file_base_name, "docx")
+            #self.ms_office.export_to_MS_word(address_list,output_file_name_docx)
+
+            self.phone_number_lookup.update_phone_numbers()
 
     def get_address_list(self, text):
         address_list = []

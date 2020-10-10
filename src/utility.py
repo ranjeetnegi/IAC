@@ -99,6 +99,7 @@ class Utility:
 
     def empty_brackets_remover(self,text):
         text = re.sub(r"\(+\)+", "", text)
+        text = re.sub(r"\(+[ ]+\)+", "", text)
         return text
 
     def replace_white_spaces_single_space(self, text):

@@ -1,5 +1,5 @@
 class Address:
-    def __init__(self, address, state, district, block, pin, phone):
+    def __init__(self, address, state, district, block, pin, phone, is_reorder=False):
         self.address = address
         self.address_old = address
         self.state = state
@@ -7,6 +7,7 @@ class Address:
         self.block = block
         self.pin = pin
         self.phone = phone
+        self.is_reorder = is_reorder
 
     def __lt__(self, other):
         val1, val2 = self.__evaluate(other)
@@ -22,18 +23,19 @@ class Address:
 
     def print_attributes(self):
         data = ""
-        # if self.state is not None:
-        #     data = data + " State:" + self.state
-        # if self.district is not None:
-        #     data = data + ",District:" + self.district
-        # if self.block is not None:
-        #     data = data + ",Block:" + self.block
-        # if self.pin is not None:
-        #     data = data + ",Pin:" + self.pin
-        # if self.phone is not None:
-        #     data = data + ",Phone:" + self.phone
+        if self.state is not None:
+            data = data + " State:" + self.state
+        if self.district is not None:
+            data = data + ",District:" + self.district
+        if self.block is not None:
+            data = data + ",Block:" + self.block
+        if self.pin is not None:
+            data = data + ",Pin:" + self.pin
+        if self.phone is not None:
+            data = data + ",Phone:" + self.phone
         if self.address is not None:
             data = data + " Address:" + self.address
+        data = data + " Is reorder: " + str(self.is_reorder)
         print(data)
 
     def print_address_old(self):
