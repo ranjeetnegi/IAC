@@ -41,6 +41,10 @@ class Utility:
         text = text.replace("(d)", " dist ")
         text = text.replace("(state)", "state")
         text = text.replace("(villege)", " village ")
+        text = text.replace("<", " ")
+        text = text.replace(">", " ")
+        text = text.replace("[", " ")
+        text = text.replace("]", " ")
 
         text = text.replace("&", " and ")
 
