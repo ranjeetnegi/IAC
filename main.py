@@ -114,9 +114,15 @@ class Main:
     def get_address_list_from_whatsapp_text(self, text):
         addresses_list = []
         whatsapp_regex_split_1 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+=Hi"
+        whatsapp_regex_split_2 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+\s{3}"
+
         match_1 = re.findall(whatsapp_regex_split_1, text)
+        match_2 = re.findall(whatsapp_regex_split_2, text)
+
         if len(match_1) > 0:
             addresses_list = re.split(whatsapp_regex_split_1, text)
+        elif len(match_2):
+            addresses_list = re.split(whatsapp_regex_split_2, text)
         else:
             print("No proper whatsapp match found..")
         return addresses_list
