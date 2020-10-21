@@ -1,6 +1,7 @@
 import re
 import sys
 import os
+import traceback
 from pathlib import Path
 from src.address import Address
 from src.utility import Utility
@@ -33,6 +34,7 @@ class Main:
                     if not self.utility.is_valid_address(address_obj.address):
                         continue
                     address_string = address_obj.address
+                    address_string = self.pincode.pin_code_extender(address_string)
                     address_string = self.utility.clean_stopping_words_and_phrases(address_string)
                     address_string = self.pincode.pad_pin_code(address_string, "*")
                     address_string = self.phone_number.collapse_phone_number(address_string)
@@ -50,7 +52,7 @@ class Main:
                     # traceback.print_exception(*sys.exc_info())
                     # pass
                     #print("-------------------------")
-                    print(address_obj.address)
+                    print("Error address: " + address_obj.address)
 
         address_list.sort()
         return address_list

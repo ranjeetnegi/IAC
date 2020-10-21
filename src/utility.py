@@ -95,6 +95,11 @@ class Utility:
         # "            ,,,,,,,,,,,,,"
         text = re.sub(r"[ ]+,+", ",", text)
 
+        matches = re.findall(r"[^0-9],",text)
+        for match in matches:
+            result = match.replace(",", " ")
+            text = text.replace(match, result)
+
         return text
 
     def clean_slash_remover(self, text):

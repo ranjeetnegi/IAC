@@ -29,7 +29,7 @@ class PinCode:
                     address_obj.district = district
                     address_obj.block = block
             if pin is not None:
-                address_obj.address = self.utility.white_space_cleaner(address_obj.address) + " Pin-" + pin
+                address_obj.address = self.utility.white_space_cleaner(address_obj.address) + " Pin " + pin
         return
 
     def pad_pin_code(self, text_input, pad_word):
@@ -135,3 +135,17 @@ class PinCode:
         pin_codes = re.findall(highlighted_pin_code_regex, address_obj.address)
         #print(pin_codes)
         return list(set(pin_codes))
+
+    def pin_code_extender(self, text):
+        #Bangalore
+        regex_1 = r"[bB]angalore[ -]\d{2}[ ,]"
+        matches_1 = re.findall(regex_1, text)
+        if len(matches_1) > 0:
+            for match in matches_1:
+                result = re.sub(r"[^a-zA-Z0-9]", " ", match)
+                pin_matches = re.findall(r"\d{2}", result)
+                for short_pin in pin_matches:
+                    pin = "5600" + short_pin
+                    result = result.replace(short_pin, pin)
+                text = text.replace(match, result)
+        return text

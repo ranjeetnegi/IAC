@@ -7,6 +7,6 @@ setup(
     long_description="This is software to parse indian address",
     author="Ranjeet",
     packages=['address'],
-    install_requires=['python-docx']
+    install_requires=['python-docx', "mysql-connector-python","jproperties"]
 )
 # python setup.py sdist bdist_wheel
