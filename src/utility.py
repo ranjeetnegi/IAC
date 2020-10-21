@@ -45,6 +45,7 @@ class Utility:
         text = text.replace(">", " ")
         text = text.replace("[", " ")
         text = text.replace("]", " ")
+        text = text.replace("father", "S/O")
 
         text = text.replace("&", " and ")
 
@@ -54,6 +55,17 @@ class Utility:
         text = text.replace("))", ")").replace(" )", ")")
         text = re.sub(r"/ ", " ", text)
         text = re.sub(r"%", "", text)
+        text = text.replace("address", "")
+        text = re.sub("house no[ .:=\/\-*#~]+", "#", text)
+        text = re.sub("house no", "#", text)
+
+        # Hash Replacer
+        text = re.sub("[#]+", "#", text)
+        hash_matches = re.findall("#[^0-9]", text)
+        if len(hash_matches) > 0:
+            for match in hash_matches:
+                replacer = match.replace("#", "")
+                text = text.replace(match, replacer)
 
         text = self.white_space_cleaner(text)
         return text
