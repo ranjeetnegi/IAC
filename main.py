@@ -115,18 +115,48 @@ class Main:
 
     def get_address_list_from_whatsapp_text(self, text):
         addresses_list = []
-        whatsapp_regex_split_1 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+=Hi"
-        whatsapp_regex_split_2 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+\s{3}"
+
+        is_whatsapp_regex = r"wa\.me/\d{12}"
+
+        whatsapp_regex_split_1 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+\s\["
+        whatsapp_regex_split_2 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+wa\.me\/\d+[ ]{1,4}[^[]"
+        whatsapp_regex_split_3 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+=Hi\s+\["
 
         match_1 = re.findall(whatsapp_regex_split_1, text)
         match_2 = re.findall(whatsapp_regex_split_2, text)
+        match_3 = re.findall(whatsapp_regex_split_3, text)
 
+        un_split_list = []
         if len(match_1) > 0:
-            addresses_list = re.split(whatsapp_regex_split_1, text)
-        elif len(match_2):
-            addresses_list = re.split(whatsapp_regex_split_2, text)
-        else:
-            print("No proper whatsapp match found..")
+            addresses_list_1 = re.split(whatsapp_regex_split_1, text)
+            for address in addresses_list_1:
+                if not len(re.findall(is_whatsapp_regex, address)) > 0:
+                    addresses_list.append(address)
+                else:
+                    un_split_list.append(address)
+        if len(match_2) > 0:
+            size = len(un_split_list)
+            while size > 0:
+                address_raw_text = un_split_list.pop(0)
+                address_text_list = re.split(whatsapp_regex_split_2, address_raw_text)
+                for address in address_text_list:
+                    if not len(re.findall(is_whatsapp_regex, address)) > 0:
+                        addresses_list.append(address)
+                    else:
+                        un_split_list.append(address)
+                size = size - 1
+        if len(match_3) > 0:
+            size = len(un_split_list)
+            while size > 0:
+                address_raw_text = un_split_list.pop(0)
+                address_text_list = re.split(whatsapp_regex_split_3, address_raw_text)
+                for address in address_text_list:
+                    if not len(re.findall(is_whatsapp_regex, address)) > 0:
+                        addresses_list.append(address)
+                    else:
+                        un_split_list.append(address)
+                size = size - 1
+        addresses_list = addresses_list + un_split_list
         return addresses_list
 
 
