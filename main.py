@@ -18,7 +18,7 @@ class Main:
         self.pincode = PinCode()
         self.phone_number_lookup = PhoneNumberLookup()
         self.phone_number = PhoneNumber(self.phone_number_lookup)
-        self.output_dir = "output_dir/"
+        self.output_dir = "output_dir"
         self.ms_office = MsOffice()
         self.utility = Utility()
 
@@ -69,7 +69,7 @@ class Main:
 
             if not os.path.exists(self.output_dir):
                 os.makedirs(self.output_dir)
-            output_file_name_xls = self.output_dir + self.utility.generate_output_file_name(file_base_name, "xls")
+            output_file_name_xls = os.path.join(self.output_dir, self.utility.generate_output_file_name(file_base_name, "xls"))
             #print(output_file_name_xls)
             self.ms_office.export_to_MS_Excel(address_list, output_file_name_xls)
 
