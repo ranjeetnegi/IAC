@@ -9,7 +9,7 @@ from src.address import Address
 
 class MsOffice:
     def __init__(self):
-        pass
+        self.record_per_sheet = 64_000
 
     def export_to_MS_word(self, address_list, file_name):
         document = Document()
@@ -27,53 +27,55 @@ class MsOffice:
 
     def export_to_MS_Excel(self, address_list, file_name):
         wb = Workbook()
-        sheet1 = wb.add_sheet("Sheet 1")
         style_warn = xlwt.easyxf("pattern: pattern solid, fore_colour red;")
         style_alert = xlwt.easyxf("pattern: pattern solid, fore_colour yellow;")
         style_duplicate = xlwt.easyxf("pattern: pattern solid, fore_colour brown;")
         row_number = -1
         while row_number < len(address_list):
             row_number = row_number + 1
-            if row_number == 0:
+            if row_number == 0 or row_number % self.record_per_sheet == 0:
                 headers_list = ["ADDRESS", "STATE", "DISTRICT", "BLOCK", "PIN", "PHONE","RE_ORDER"]
-                self.add_headers_to_sheet(sheet1, headers_list)
+                wb.add_sheet("Sheet " + str(math.ceil(row_number/self.record_per_sheet)))
+                sheet = wb.get_sheet("Sheet " + str(math.ceil(row_number / self.record_per_sheet)))
+                self.add_headers_to_sheet(sheet, headers_list)
                 continue
             address = address_list[row_number - 1]
+            row_index = (row_number % self.record_per_sheet)
             try:
                 if address.is_reorder:
-                    sheet1.write(row_number, 0, address.address, style_duplicate)
-                    sheet1.write(row_number, 1, address.state, style_duplicate)
-                    sheet1.write(row_number, 2, address.district, style_duplicate)
-                    sheet1.write(row_number, 3, address.block, style_duplicate)
-                    sheet1.write(row_number, 4, address.pin, style_duplicate)
-                    sheet1.write(row_number, 5, address.phone, style_duplicate)
-                    sheet1.write(row_number, 6, "YES", style_duplicate)
+                    sheet.write(row_index, 0, address.address, style_duplicate)
+                    sheet.write(row_index, 1, address.state, style_duplicate)
+                    sheet.write(row_index, 2, address.district, style_duplicate)
+                    sheet.write(row_index, 3, address.block, style_duplicate)
+                    sheet.write(row_index, 4, address.pin, style_duplicate)
+                    sheet.write(row_index, 5, address.phone, style_duplicate)
+                    sheet.write(row_index, 6, "YES", style_duplicate)
                     continue
 
                 if address.pin is not None and address.phone is not None:
-                    sheet1.write(row_number, 0, address.address)
-                    sheet1.write(row_number, 1, address.state)
-                    sheet1.write(row_number, 2, address.district)
-                    sheet1.write(row_number, 3, address.block)
-                    sheet1.write(row_number, 4, address.pin)
-                    sheet1.write(row_number, 5, address.phone)
-                    sheet1.write(row_number, 6, "NO")
+                    sheet.write(row_index, 0, address.address)
+                    sheet.write(row_index, 1, address.state)
+                    sheet.write(row_index, 2, address.district)
+                    sheet.write(row_index, 3, address.block)
+                    sheet.write(row_index, 4, address.pin)
+                    sheet.write(row_index, 5, address.phone)
+                    sheet.write(row_index, 6, "NO")
                 elif address.phone is not None:
-                    sheet1.write(row_number, 0, address.address, style_alert)
-                    sheet1.write(row_number, 1, address.state, style_alert)
-                    sheet1.write(row_number, 2, address.district, style_alert)
-                    sheet1.write(row_number, 3, address.block, style_alert)
-                    sheet1.write(row_number, 4, address.pin, style_alert)
-                    sheet1.write(row_number, 5, address.phone, style_alert)
-                    sheet1.write(row_number, 6, "NO", style_alert)
+                    sheet.write(row_index, 0, address.address, style_alert)
+                    sheet.write(row_index, 1, address.state, style_alert)
+                    sheet.write(row_index, 2, address.district, style_alert)
+                    sheet.write(row_index, 3, address.block, style_alert)
+                    sheet.write(row_index, 4, address.pin, style_alert)
+                    sheet.write(row_index, 5, address.phone, style_alert)
+                    sheet.write(row_index, 6, "NO", style_alert)
                 else:
-                    sheet1.write(row_number, 0, address.address, style_warn)
-                    sheet1.write(row_number, 1, address.state, style_warn)
-                    sheet1.write(row_number, 2, address.district, style_warn)
-                    sheet1.write(row_number, 3, address.block, style_warn)
-                    sheet1.write(row_number, 4, address.pin, style_warn)
-                    sheet1.write(row_number, 5, address.phone, style_warn)
-                    sheet1.write(row_number, 6, "NO", style_warn)
+                    sheet.write(row_index, 0, address.address, style_warn)
+                    sheet.write(row_index, 1, address.state, style_warn)
+                    sheet.write(row_index, 2, address.district, style_warn)
+                    sheet.write(row_index, 3, address.block, style_warn)
+                    sheet.write(row_index, 4, address.pin, style_warn)
+                    sheet.write(row_index, 5, address.phone, style_warn)
+                    sheet.write(row_index, 6, "NO", style_warn)
             except:
                 address.print_attributes()
         wb.save(file_name)
