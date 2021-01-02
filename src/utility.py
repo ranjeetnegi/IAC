@@ -158,3 +158,18 @@ class Utility:
         if len(re.findall(r"end-to-end encrypted", text)) > 0:
             return False
         return True
+
+    def update_address_name(self, address):
+        name_regex = "\[.*?\]|.*?\]"
+        address_text = address.address
+        name_regexes = re.findall(name_regex, address_text)
+        if len(name_regexes) > 0:
+            for name_regex in name_regexes:
+                first_char = name_regex[0]
+                if first_char == '[':
+                    name = name_regex[1:-1]
+                else:
+                    name = name_regex[:-1]
+                address_text = address_text.replace(name_regex, name)
+                address.name = name
+                address.address = address_text

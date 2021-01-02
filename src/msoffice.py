@@ -34,7 +34,7 @@ class MsOffice:
         while row_number < len(address_list):
             row_number = row_number + 1
             if row_number == 0 or row_number % self.record_per_sheet == 0:
-                headers_list = ["ADDRESS", "STATE", "DISTRICT", "BLOCK", "PIN", "PHONE","RE_ORDER"]
+                headers_list = ["ADDRESS", "STATE", "DISTRICT", "BLOCK", "PIN", "PHONE", "RE_ORDER", "NAME"]
                 wb.add_sheet("Sheet " + str(math.ceil(row_number/self.record_per_sheet)))
                 sheet = wb.get_sheet("Sheet " + str(math.ceil(row_number / self.record_per_sheet)))
                 self.add_headers_to_sheet(sheet, headers_list)
@@ -50,6 +50,7 @@ class MsOffice:
                     sheet.write(row_index, 4, address.pin, style_duplicate)
                     sheet.write(row_index, 5, address.phone, style_duplicate)
                     sheet.write(row_index, 6, "YES", style_duplicate)
+                    sheet.write(row_index, 7, address.name, style_duplicate)
                     continue
 
                 if address.pin is not None and address.phone is not None:
@@ -60,6 +61,7 @@ class MsOffice:
                     sheet.write(row_index, 4, address.pin)
                     sheet.write(row_index, 5, address.phone)
                     sheet.write(row_index, 6, "NO")
+                    sheet.write(row_index, 7, address.name)
                 elif address.phone is not None:
                     sheet.write(row_index, 0, address.address, style_alert)
                     sheet.write(row_index, 1, address.state, style_alert)
@@ -68,6 +70,7 @@ class MsOffice:
                     sheet.write(row_index, 4, address.pin, style_alert)
                     sheet.write(row_index, 5, address.phone, style_alert)
                     sheet.write(row_index, 6, "NO", style_alert)
+                    sheet.write(row_index, 7, address.name,style_alert)
                 else:
                     sheet.write(row_index, 0, address.address, style_warn)
                     sheet.write(row_index, 1, address.state, style_warn)
@@ -76,6 +79,7 @@ class MsOffice:
                     sheet.write(row_index, 4, address.pin, style_warn)
                     sheet.write(row_index, 5, address.phone, style_warn)
                     sheet.write(row_index, 6, "NO", style_warn)
+                    sheet.write(row_index, 7, address.name, style_warn)
             except:
                 address.print_attributes()
         wb.save(file_name)
@@ -89,16 +93,26 @@ class MsOffice:
         sheet.write(row, col, data, style)
         return
 
-    def import_from_Excel_sheet(self, file_name, sheet_number, address_col):
+    def import_from_Excel_sheet(self, file_name):
         wb = xlrd.open_workbook(file_name)
-        sheet = wb.sheet_by_index(sheet_number)
+        sheets = wb.sheet_names()
         address_list = []
-        start_row = 1
-        while True:
-            address_text = sheet.cell_value(start_row, address_col)
-            if address_text is None or len(address_text) == 0:
-                if len(sheet.cell_value(start_row + 1, address_col)) == 0:
-                    break
-            address_obj = Address(address_text, None, None, None, None, None)
-            address_list.append(address_obj)
+        for i in sheets:
+            sheet = wb.sheet_by_name(str(i))
+            rows = sheet.nrows
+            for row_index in range(1, rows):
+                address_text = sheet.cell_value(row_index, 0)
+                state = sheet.cell_value(row_index, 1)
+                district = sheet.cell_value(row_index, 2)
+                block = sheet.cell_value(row_index, 3)
+                pin = sheet.cell_value(row_index, 4)
+                phone = sheet.cell_value(row_index, 5)
+                re_order_text = sheet.cell_value(row_index, 6)
+                re_order = None
+                if re_order_text == "NO":
+                    re_order = False
+                elif re_order_text == "YES":
+                    re_order = True
+                address_obj = Address(address_text, state, district, block, pin, phone, re_order)
+                address_list.append(address_obj)
         return address_list

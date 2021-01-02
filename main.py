@@ -58,25 +58,30 @@ class Main:
         return address_list
 
     def main(self):
-        files_list = []
-        for arg in sys.argv[1:]:
-            files_list.append(arg)
-        for file_name in files_list:
-            addresses_file_text = self.read_from_file(file_name)
+        arguments = sys.argv[1:]
+        key, file = arguments[0].split("=")
+        if key == "-file":
+            addresses_file_text = self.read_from_file(file)
             address_list = self.process_addresses(addresses_file_text)
             #self.utility.print_address(address_list)
-            file_base_name = Path(file_name).stem
+            file_base_name = Path(file).stem
 
             if not os.path.exists(self.output_dir):
                 os.makedirs(self.output_dir)
             output_file_name_xls = os.path.join(self.output_dir, self.utility.generate_output_file_name(file_base_name, "xls"))
-            #print(output_file_name_xls)
             self.ms_office.export_to_MS_Excel(address_list, output_file_name_xls)
 
             #output_file_name_docx = self.output_dir + self.utility.generate_output_file_name(file_base_name, "docx")
             #self.ms_office.export_to_MS_word(address_list,output_file_name_docx)
 
             self.phone_number_lookup.update_phone_numbers()
+        elif key == "-name":
+            address_list = self.ms_office.import_from_Excel_sheet(file)
+            for address in address_list:
+                self.utility.update_address_name(address)
+            self.ms_office.export_to_MS_Excel(address_list, str(file.split(".")[0] + "_name.xls"))
+        else:
+            print("Invalid argument!!, -file: for file processing, -name: generate name column")
 
     def get_address_list(self, text):
         address_list = []
