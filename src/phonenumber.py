@@ -74,7 +74,7 @@ class PhoneNumber:
         regex_1_matches = re.findall(regex_1, text)
         if len(regex_1_matches) > 0:
             for match in regex_1_matches:
-                regex_1_replacer = pad_word + match + pad_word + space
+                regex_1_replacer = space + pad_word + match + pad_word + space
                 text = text.replace(match, regex_1_replacer)
 
         regex_2_matches = re.findall(regex_2, text)

@@ -56,3 +56,6 @@ class Address:
             if len(address_token.strip()) > 0:
                 capital_word_array.append(address_token.strip().capitalize())
         self.address = " ".join(capital_word_array)
+
+    def set_state(self, state):
+        self.state = state

@@ -91,6 +91,7 @@ class Utility:
         text = self.comma_space_remover(text)
         text = self.empty_brackets_remover(text)
         text = self.clean_slash_remover(text)
+        text = self.star_remover(text)
         return text
 
     def comma_space_remover(self, text):
@@ -173,3 +174,6 @@ class Utility:
                 address_text = address_text.replace(name_regex, name)
                 address.name = name
                 address.address = address_text
+
+    def star_remover(self, text):
+        return text.replace("*", " ").strip()

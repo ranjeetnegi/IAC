@@ -9,6 +9,7 @@ from src.pincode import PinCode
 from src.phonenumber import PhoneNumber
 from src.msoffice import MsOffice
 from src.phone_number_lookup import PhoneNumberLookup
+from src.statemapper import StateMapper
 
 
 class Main:
@@ -21,6 +22,7 @@ class Main:
         self.output_dir = "output_dir"
         self.ms_office = MsOffice()
         self.utility = Utility()
+        self.state_mapper = StateMapper()
 
 
     def process_addresses(self, addresses_file_text):
@@ -46,6 +48,10 @@ class Main:
                     self.phone_number.update_phone_number(address_obj)
                     address_obj.address = self.utility.white_space_cleaner(address_obj.address)
                     address_obj.capitalize_address()
+                    if address_obj.state is None:
+                        state = self.state_mapper.getStateFromString(address_string)
+                        if state is not None:
+                            address_obj.set_state(state)
                     address_list.append(address_obj)
                     # print(address_obj.print_attributes())
                 except:
