@@ -35,6 +35,7 @@ class PinCode:
     def pad_pin_code(self, text_input, pad_word):
         text = text_input
         space = " "
+        pin_regex_0 = "[<]\d{6}[>]"  # |<334333>|
         pin_regex_1 = "[ ]\d{6}$"  # | 334333|
         pin_regex_2 = "[ ]\d{6}[ ]"  # | 334333 |
         pin_regex_3 = "[^0-9*]\d{6}[^0-9*]"  # |n334333d|
@@ -45,6 +46,7 @@ class PinCode:
         pin_regex_8 = "[^0-9*]\d{6}[ ]"  # |n3343 33 |
         pin_regex_9 = "[ ]\d{6}[^0-9*]"  # |334333n|
 
+        pin_regex_0_matches = re.findall(pin_regex_0, text)
         pin_regex_1_matches = re.findall(pin_regex_1, text)
         pin_regex_2_matches = re.findall(pin_regex_2, text)
         pin_regex_3_matches = re.findall(pin_regex_3, text)
@@ -55,6 +57,11 @@ class PinCode:
         pin_regex_8_matches = re.findall(pin_regex_8, text)
         pin_regex_9_matches = re.findall(pin_regex_9, text)
 
+        if len(pin_regex_0_matches) > 0:
+            for match in pin_regex_0_matches:
+                pin = match[1:-1]
+                padded_match = (space + pad_word + pin + pad_word + space)
+                return text.replace(match, padded_match)
         if len(pin_regex_1_matches) > 0:
             #print("match 1")
             for match in pin_regex_1_matches:

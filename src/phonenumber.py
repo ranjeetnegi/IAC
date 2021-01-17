@@ -22,11 +22,33 @@ class PhoneNumber:
 
     def collapse_phone_number(self, text):
         regex_1 = '\d+[ ]\d+[ ]\d+'
+        regex_2 = '\d[iIoO]\d'
+        regex_3 ='\d[iIoO]+$'
+
         match_1 = re.findall(regex_1, text)
         if len(match_1) > 0:
             for match in match_1:
                 match_replacer = match.replace(" ", "")
                 text = text.replace(match, match_replacer)
+
+        match_2 = re.findall(regex_2, text)
+        if len(match_2) > 0:
+            for match in match_2:
+                match_replacer = match.replace("i", "1")
+                match_replacer = match_replacer.replace("I", "1")
+                match_replacer = match_replacer.replace("o", "0")
+                match_replacer = match_replacer.replace("O", "0")
+                text = text.replace(match, match_replacer)
+
+        match_3 = re.findall(regex_3, text)
+        if len(match_3) > 0:
+            for match in match_3:
+                match_replacer = match.replace("i", "1")
+                match_replacer = match_replacer.replace("I", "1")
+                match_replacer = match_replacer.replace("o", "0")
+                match_replacer = match_replacer.replace("O", "0")
+                text = text.replace(match, match_replacer)
+
         text = self.utility.white_space_cleaner(text)
         return text
 
@@ -38,6 +60,16 @@ class PhoneNumber:
         regex_2 = "[ ][6-9]\d{9}[ ]|[ ][6-9]\d{9}$"  # " 7534564334 "
         regex_3 = "[6-9]\d{4}[ ]\d{5}"  # "65345 64334"
         regex_4 = "[^*0-9][6-9]\d{9}|[^*0-9][6-9]\d{9}$"  # "n4534564334"
+        regex_5 = "91\d{10}"  # "914534564334"
+        regex_6 = "91-\d{10}"  # "91-4534564334"
+        regex_7 = "\d{1} \d{9}" #   "7 217696915"
+        regex_8 = "\d{9} \d{1}" #"721769691 5"
+        regex_9 = "\d{2} \d{4} \d{4}"  # "72 1769 6915"
+        regex_10 = "\d{6} \d{4}"  # "721769 6915"
+        regex_11 = "\d{3} \d{2} \d{2} \d{3}"  # "721 76 96 915"
+        regex_12 = " [0-9 ]+"  # "7 2 1 7 6 9 6 9 1 5"
+        regex_13 = "\d{3} \d{2} \d{5}" #"721 76 96915"
+
 
         regex_1_matches = re.findall(regex_1, text)
         if len(regex_1_matches) > 0:
@@ -65,6 +97,59 @@ class PhoneNumber:
                 regex_4_replacer = regex_4_replacer.replace(" ", "")
                 match = match.replace(" ", "")
                 text = text.replace(match, regex_4_replacer)
+
+        regex_5_matches = re.findall(regex_5, text)
+        if len(regex_5_matches) > 0:
+            for match in regex_5_matches:
+                regex_5_replacer = space + pad_word + match.replace("91", "") + pad_word + space
+                text = text.replace(match, regex_5_replacer)
+
+        regex_6_matches = re.findall(regex_6, text)
+        if len(regex_6_matches) > 0:
+            for match in regex_6_matches:
+                regex_6_replacer = space + pad_word + match.replace("91-", "") + pad_word + space
+                text = text.replace(match, regex_6_replacer)
+
+        regex_7_matches = re.findall(regex_7, text)
+        if len(regex_7_matches) > 0:
+            for match in regex_7_matches:
+                regex_7_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
+                text = text.replace(match, regex_7_replacer)
+
+        regex_8_matches = re.findall(regex_8, text)
+        if len(regex_8_matches) > 0:
+            for match in regex_8_matches:
+                regex_8_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
+                text = text.replace(match, regex_8_replacer)
+        regex_9_matches = re.findall(regex_9, text)
+        if len(regex_9_matches) > 0:
+            for match in regex_9_matches:
+                regex_9_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
+                text = text.replace(match, regex_9_replacer)
+
+        regex_10_matches = re.findall(regex_10, text)
+        if len(regex_10_matches) > 0:
+            for match in regex_10_matches:
+                regex_10_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
+                text = text.replace(match, regex_10_replacer)
+
+        regex_11_matches = re.findall(regex_11, text)
+        if len(regex_11_matches) > 0:
+            for match in regex_11_matches:
+                regex_11_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
+                text = text.replace(match, regex_11_replacer)
+
+        regex_12_matches = re.findall(regex_12, text)
+        if len(regex_12_matches) > 0:
+            for match in regex_12_matches:
+                regex_12_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
+                text = text.replace(match, regex_12_replacer)
+
+        regex_13_matches = re.findall(regex_13, text)
+        if len(regex_13_matches) > 0:
+            for match in regex_13_matches:
+                regex_13_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
+                text = text.replace(match, regex_13_replacer)
         return text
 
     def mobile_number_text_remover(self, text):
