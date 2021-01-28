@@ -103,10 +103,20 @@ class MsOffice:
             for row_index in range(1, rows):
                 address_text = sheet.cell_value(row_index, 0)
                 state = sheet.cell_value(row_index, 1)
+                if len(state) == 0:
+                    state = None
                 district = sheet.cell_value(row_index, 2)
+                if len(district) == 0:
+                    district = None
                 block = sheet.cell_value(row_index, 3)
+                if len(block) == 0:
+                    block = None
                 pin = sheet.cell_value(row_index, 4)
+                if len(pin) == 0:
+                    pin = None
                 phone = sheet.cell_value(row_index, 5)
+                if len(phone) == 0:
+                    phone = None
                 re_order_text = sheet.cell_value(row_index, 6)
                 re_order = None
                 if re_order_text == "NO":

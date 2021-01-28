@@ -62,13 +62,13 @@ class PhoneNumber:
         regex_4 = "[^*0-9][6-9]\d{9}|[^*0-9][6-9]\d{9}$"  # "n4534564334"
         regex_5 = "91\d{10}"  # "914534564334"
         regex_6 = "91-\d{10}"  # "91-4534564334"
-        regex_7 = "\d{1} \d{9}" #   "7 217696915"
-        regex_8 = "\d{9} \d{1}" #"721769691 5"
-        regex_9 = "\d{2} \d{4} \d{4}"  # "72 1769 6915"
-        regex_10 = "\d{6} \d{4}"  # "721769 6915"
-        regex_11 = "\d{3} \d{2} \d{2} \d{3}"  # "721 76 96 915"
-        regex_12 = " [0-9 ]+"  # "7 2 1 7 6 9 6 9 1 5"
-        regex_13 = "\d{3} \d{2} \d{5}" #"721 76 96915"
+        regex_7 = "[6-9] \d{9}" #   "7 217696915"
+        regex_8 = "[6-9]\d{8} \d{1} " #"721769691 5"
+        regex_9 = "[6-9]\d{1} \d{4} \d{4} "  # "72 1769 6915"
+        regex_10 = "[6-9]\d{5} \d{4} "  # "721769 6915"
+        regex_11 = "[6-9]\d{2} \d{2} \d{2} \d{3}"  # "721 76 96 915"
+        regex_12 = " [6-9][0-9 ]+"  # "7 2 1 7 6 9 6 9 1 5"
+        regex_13 = "[6-9]\d{2} \d{2} \d{5}" #"721 76 96915"
 
 
         regex_1_matches = re.findall(regex_1, text)
@@ -165,7 +165,7 @@ class PhoneNumber:
             return address
 
     def get_hilighted_phone_number_from_address(self, address_obj):
-        highlighted_phone_number_regex = "[*]\d{10}[*]"
+        highlighted_phone_number_regex = "[*]\d{10,12}[*]"
         return list(set(re.findall(highlighted_phone_number_regex, address_obj.address)))
 
     def update_phone_number(self, address_obj):

@@ -91,7 +91,6 @@ class Utility:
         text = self.comma_space_remover(text)
         text = self.empty_brackets_remover(text)
         text = self.clean_slash_remover(text)
-        text = self.star_remover(text)
         return text
 
     def comma_space_remover(self, text):
