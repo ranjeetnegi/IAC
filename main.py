@@ -98,7 +98,7 @@ class Main:
             string_address_list = self.get_address_list_from_whatsapp_text(text)
         else:
             regex_split_1 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ - [a-zA-Z-0-9 ]+:"
-            regex_split_2 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:"
+            regex_split_2 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [apAP][mM] - [a-zA-Z-0-9 ]+:"
 
             matches_1 = re.findall(regex_split_1, text)
             matches_2 = re.findall(regex_split_2, text)
@@ -129,9 +129,9 @@ class Main:
 
         is_whatsapp_regex = r"wa\.me/\d{12}"
 
-        whatsapp_regex_split_1 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+\s\["
-        whatsapp_regex_split_2 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+wa\.me\/\d+[ ]{1,4}[^[]"
-        whatsapp_regex_split_3 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [ap]m - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+=Hi\s+"
+        whatsapp_regex_split_1 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [apAP][mM] - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+\s\["
+        whatsapp_regex_split_2 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [apAP][mM] - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+wa\.me\/\d+[ ]{1,4}[^[]"
+        whatsapp_regex_split_3 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [apAP][mM] - [a-zA-Z-0-9 ]+:[ 0-9-🪀a-zA-Z:\/\.?]+=Hi\s+"
 
         match_1 = re.findall(whatsapp_regex_split_1, text)
         match_2 = re.findall(whatsapp_regex_split_2, text)
