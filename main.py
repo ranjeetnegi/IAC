@@ -99,9 +99,11 @@ class Main:
         else:
             regex_split_1 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ - [a-zA-Z-0-9 ]+:"
             regex_split_2 = r"\d{1,2}\/\d{1,2}\/\d{2}, \d+:\d+ [apAP][mM] - [a-zA-Z-0-9 ]+:"
+            regex_split_3 = r"\[\d{1,2}:\d{1,2}, \d{1,2}\/\d{1,2}\/\d{4}\] [a-zA-Z-0-9 ]+:"
 
             matches_1 = re.findall(regex_split_1, text)
             matches_2 = re.findall(regex_split_2, text)
+            matches_3 = re.findall(regex_split_3, text)
 
             # print(matches)
             if len(matches_1) > 0:
@@ -111,6 +113,8 @@ class Main:
                     string_address_list = re.split(regex_split_1, text)
             elif len(matches_2) > 0:
                 string_address_list = re.split(regex_split_2, text)
+            elif len(matches_3) > 0:
+                string_address_list = re.split(regex_split_3, text)
             else:
                 string_address_list = re.split(r"\n", text)
         for address_text in string_address_list:
