@@ -41,8 +41,8 @@ class Utility:
         text = text.replace("(d)", " dist ")
         text = text.replace("(state)", "state")
         text = text.replace("(villege)", " village ")
-        #text = text.replace("<", " ")
-        #text = text.replace(">", " ")
+        # text = text.replace("<", " ")
+        # text = text.replace(">", " ")
         text = text.replace("[", " ")
         text = text.replace("]", " ")
         text = text.replace("father", "S/O")
@@ -66,7 +66,6 @@ class Utility:
             for match in hash_matches:
                 replacer = match.replace("#", "")
                 text = text.replace(match, replacer)
-
         text = self.white_space_cleaner(text)
         return text
 
@@ -107,7 +106,7 @@ class Utility:
         # "            ,,,,,,,,,,,,,"
         text = re.sub(r"[ ]+,+", ",", text)
 
-        matches = re.findall(r"[^0-9],",text)
+        matches = re.findall(r"[^0-9],", text)
         for match in matches:
             result = match.replace(",", " ")
             text = text.replace(match, result)
@@ -118,7 +117,7 @@ class Utility:
         text = re.sub(r"/[^a-zA-Z0-9]]", "", text)
         return text
 
-    def empty_brackets_remover(self,text):
+    def empty_brackets_remover(self, text):
         text = re.sub(r"\(+\)+", "", text)
         text = re.sub(r"\(+[ ]+\)+", "", text)
         return text
@@ -143,7 +142,7 @@ class Utility:
                                    u"\U0001F680-\U0001F6FF"  # transport & map symbols
                                    u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
                                    u"\U00002702-\U000027B0"
-                                   u"\U000024C2-\U0001F251"
+                                   # u"\U000024C2-\U0001F251"
                                    "]+", flags=re.UNICODE)
         return emoji_pattern.sub(r'', text)
 
@@ -176,3 +175,9 @@ class Utility:
 
     def star_remover(self, text):
         return text.replace("*", " ").strip()
+
+    def whatsapp_text(self, address_text):
+        if address_text.find("भेज दी जी सेवा") != -1 or address_text.find("media Omitted") != -1 or address_text.find(
+                "This Message Was Deleted") != -1:
+            return True
+        return False
