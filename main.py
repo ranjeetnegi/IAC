@@ -10,6 +10,7 @@ from src.phonenumber import PhoneNumber
 from src.msoffice import MsOffice
 from src.phone_number_lookup import PhoneNumberLookup
 from src.statemapper import StateMapper
+from src.districtmapper import DistrictMapper
 
 
 class Main:
@@ -23,6 +24,7 @@ class Main:
         self.ms_office = MsOffice()
         self.utility = Utility()
         self.state_mapper = StateMapper()
+        self.district_mapper = DistrictMapper()
 
 
     def process_addresses(self, addresses_file_text):
@@ -52,6 +54,15 @@ class Main:
                         state = self.state_mapper.getStateFromString(address_string)
                         if state is not None:
                             address_obj.set_state(state)
+                    if address_obj.district is None:
+                        dist_state = self.district_mapper.get_state_dist_from_add_string(address_string)
+                        if len(dist_state) > 0:
+                            dist, state = dist_state.split(",")
+                            if len(dist) > 0:
+                                address_obj.set_dist(dist)
+                            if len(state) > 0:
+                                address_obj.set_state(state)
+
                     address_list.append(address_obj)
                     # print(address_obj.print_attributes())
                 except:

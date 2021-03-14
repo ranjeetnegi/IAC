@@ -59,3 +59,6 @@ class Address:
 
     def set_state(self, state):
         self.state = state
+
+    def set_dist(self, dist):
+        self.district = dist
