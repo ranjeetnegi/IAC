@@ -58,23 +58,23 @@ class PinCode:
         pin_regex_9_matches = re.findall(pin_regex_9, text)
 
         if len(pin_regex_0_matches) > 0:
-            for match in pin_regex_0_matches:
+            for match in set(pin_regex_0_matches):
                 pin = match[1:-1]
                 padded_match = (space + pad_word + pin + pad_word + space)
                 return text.replace(match, padded_match)
         if len(pin_regex_1_matches) > 0:
             #print("match 1")
-            for match in pin_regex_1_matches:
+            for match in set(pin_regex_1_matches):
                 padded_match = space + pad_word + match.replace(" ", "") + pad_word + space
                 return text.replace(match, padded_match)
         if len(pin_regex_2_matches) > 0:
             #print("match 2")
-            for match in pin_regex_2_matches:
+            for match in set(pin_regex_2_matches):
                 padded_match = space + pad_word + match.replace(" ", "") + pad_word + space
                 return text.replace(match, padded_match)
         if len(pin_regex_3_matches) > 0:
             #print("match 3")
-            for match in pin_regex_3_matches:
+            for match in set(pin_regex_3_matches):
                 first_char = match[0]
                 last_char = match[-1]
                 pin = match[1:-1]
@@ -83,39 +83,39 @@ class PinCode:
             return text
         if len(pin_regex_4_matches) > 0:
             #print("match 4")
-            for match in pin_regex_4_matches:
+            for match in set(pin_regex_4_matches):
                 padded_match = space + pad_word + match.replace(" ", "") + pad_word + space
                 text = text.replace(match, padded_match)
             return text
         if len(pin_regex_5_matches) > 0:
             #print("match 5")
-            for match in pin_regex_5_matches:
+            for match in set(pin_regex_5_matches):
                 prefix = match[0]
                 padded_match = prefix + space + pad_word + match.replace(" ", "") + pad_word + space
                 text = text.replace(match, padded_match)
             return text
         if len(pin_regex_6_matches) > 0:
             #print("match 6")
-            for match in pin_regex_6_matches:
+            for match in set(pin_regex_6_matches):
                 padded_match = space + pad_word + match.replace(" ", "") + pad_word + space
                 text = text.replace(match, padded_match)
             return text
         if len(pin_regex_7_matches) > 0:
             #print("match 7")
-            for match in pin_regex_7_matches:
+            for match in set(pin_regex_7_matches):
                 padded_match = space + pad_word + match.replace(" ", "") + pad_word + space
                 text = text.replace(match, padded_match)
             return text
         if len(pin_regex_8_matches) > 0:
             #print("match 8")
-            for match in pin_regex_8_matches:
+            for match in set(pin_regex_8_matches):
                 pin = match[1:-1]
                 padded_match = space + pad_word + pin + pad_word + space
                 text = text.replace(match, padded_match)
             return text
         if len(pin_regex_9_matches) > 0:
             #print("match 9")
-            for match in pin_regex_9_matches:
+            for match in set(pin_regex_9_matches):
                 pin = match[1:-1]
                 last_char = match[-1]
                 padded_match = space + pad_word + pin + pad_word + space + last_char

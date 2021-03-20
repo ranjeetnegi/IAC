@@ -123,7 +123,7 @@ class Utility:
         return text
 
     def replace_white_spaces_single_space(self, text):
-        return text.replace("[\s]+", " ").strip()
+        return ' '.join(text.split())
 
     def print_address(self, address_list, diff=False):
         if diff is False:

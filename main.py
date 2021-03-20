@@ -54,15 +54,13 @@ class Main:
                         state = self.state_mapper.getStateFromString(address_string)
                         if state is not None:
                             address_obj.set_state(state)
-                    if address_obj.district is None:
-                        dist_state = self.district_mapper.get_state_dist_from_add_string(address_string)
-                        if len(dist_state) > 0:
-                            dist, state = dist_state.split(",")
-                            if len(dist) > 0:
-                                address_obj.set_dist(dist)
-                            if len(state) > 0:
-                                address_obj.set_state(state)
-
+                    dist_state = self.district_mapper.get_state_dist_from_add_string_by_add_rec(address_string)
+                    if dist_state is not None and len(dist_state) > 0:
+                        dist, state = dist_state.split(",")
+                        if len(dist) > 0:
+                            address_obj.set_dist(dist)
+                        if len(state) > 0:
+                            address_obj.set_state(state)
                     address_list.append(address_obj)
                     # print(address_obj.print_attributes())
                 except:
@@ -112,7 +110,7 @@ class Main:
 
         regex_split_main = re.compile("|".join(regex))
         string_address_list = re.split(regex_split_main, text)
-        if len(string_address_list) == 0:
+        if len(string_address_list) <= 1:
             string_address_list = re.split("\n", text)
 
         for address_text in string_address_list:
