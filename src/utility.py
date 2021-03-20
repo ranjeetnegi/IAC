@@ -177,7 +177,8 @@ class Utility:
         return text.replace("*", " ").strip()
 
     def whatsapp_text(self, address_text):
-        if address_text.find("भेज दी जी सेवा") != -1 or address_text.find("media Omitted") != -1 or address_text.find(
-                "This Message Was Deleted") != -1:
+        address_text = address_text.lower()
+        if address_text.find("भेज दी जी सेवा") != -1 or address_text.find("media omitted") != -1 or address_text.find(
+                "this message was deleted") != -1:
             return True
         return False
