@@ -142,8 +142,9 @@ class PhoneNumber:
         regex_12_matches = re.findall(regex_12, text)
         if len(regex_12_matches) > 0:
             for match in set(regex_12_matches):
-                regex_12_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
-                text = text.replace(match, regex_12_replacer)
+                if len(match.replace(" ", "")) >= 10:
+                    regex_12_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
+                    text = text.replace(match, regex_12_replacer)
 
         regex_13_matches = re.findall(regex_13, text)
         if len(regex_13_matches) > 0:
