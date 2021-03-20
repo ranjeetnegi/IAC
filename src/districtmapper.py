@@ -1860,7 +1860,6 @@ class DistrictMapper:
 "mankote":"RAJOURI POONCH,JAMMU &KASHMIR",
 "mans a":"MANSA,PUNJAB",
 "mansa":"MANSA,PUNJAB",
-"mansa🙏":"MANSA,PUNJAB",
 "marh":"JAMMU,JAMMU &KASHMIR",
 "marheen":"KATHUA,JAMMU &KASHMIR",
 "marwad mundwa kuchara rod":"NAGAUR,RAJASTHAN",

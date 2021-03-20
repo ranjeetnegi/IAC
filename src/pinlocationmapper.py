@@ -19364,7 +19364,7 @@ class PinLocationMapper:
 "855117":"Bihar,KISHANGANJ,Pothia",
 "495334":"CHATTISGARH,MUNGELI,Mungeli ",
 "495335":"CHATTISGARH,MUNGELI,Lorami",
-"495224":"CHATTISGARH,MUNGELI,Pathariya"
+"495224":"CHATTISGARH,MUNGELI,Pathariya",
 }
     def get_address_details(self, pin):
         return self.dictionary.get(pin)
