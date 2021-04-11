@@ -58,7 +58,9 @@ class Main:
                     address_obj.set_occ_count(occ_count)
 
                     address_obj.set_dist_matches_pin_and_addr(
-                        self.utility.is_dist_from_pin_and_addr_same(dist_add, address_obj.district))
+                        self.utility.is_string_same(dist_add, address_obj.district))
+                    address_obj.set_state_matches_pin_and_addr(
+                        self.utility.is_string_same(state_add, address_obj.state))
 
                     address_list.append(address_obj)
                     # print(address_obj.print_attributes())

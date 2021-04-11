@@ -201,14 +201,14 @@ class Utility:
             return None, state, None
         return None, None, None
 
-    def is_dist_from_pin_and_addr_same(self, dist_add, district):
-        output = "Yes"
+    def is_string_same(self, dist_add, district):
+        output = "YES"
         if dist_add is None:
-            return "No"
+            return "NO"
         if district is None:
-            return "No"
+            return "NO"
 
         if dist_add.lower() == district.lower() :
             return output
         else:
-            return "No"
+            return "NO"
