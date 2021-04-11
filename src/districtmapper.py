@@ -4197,7 +4197,22 @@ class DistrictMapper:
 
     def get_state_dist_from_add_string_by_add_rec(self, address_string):
         address_list_token = address_string.split(" ")
+        count = 0
+        value = []
         if address_list_token is not None and len(address_list_token) > 0:
             for token in address_list_token:
                 if token is not None and len(token) > 0 and self.dictionary.get(token.lower()) is not None:
-                    return self.dictionary.get(token.lower())
+                    count = count + 1
+                    dist_state = self.dictionary.get(token.lower())
+                    value.append(dist_state)
+        if len(set(value)) == 1:
+            return value[0], count
+
+        dist_state_join = ""
+        for item in set(value):
+            if len(dist_state_join) > 0:
+                dist_state_join = dist_state_join + " & " + item
+                continue
+            dist_state_join = item
+        return dist_state_join, count
+

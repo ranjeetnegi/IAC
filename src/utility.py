@@ -1,8 +1,12 @@
 from datetime import date, datetime
 import re
+from src.districtmapper import DistrictMapper
 
 
 class Utility:
+    def __init__(self):
+        self.district_mapper = DistrictMapper()
+
     def generate_output_file_name(self, file_base_name, extension):
         now = datetime.now()
         file_name_prefix_date = date.today().strftime("%Y%m%d")
@@ -182,3 +186,15 @@ class Utility:
                 "this message was deleted") != -1:
             return True
         return False
+
+    def get_data_from_address(self, address_string):
+        dist_state, count = self.district_mapper.get_state_dist_from_add_string_by_add_rec(address_string)
+        if dist_state is not None and len(dist_state) > 0 and count == 1:
+            dist, state = dist_state.split(",")
+            return state,dist,count
+        elif count > 0:
+            return dist_state,dist_state,count
+        state = self.state_mapper.getStateFromString(address_string)
+        if state is not None:
+            return None, state, None
+        return None, None, None

@@ -34,7 +34,8 @@ class MsOffice:
         while row_number < len(address_list):
             row_number = row_number + 1
             if row_number == 0 or row_number % self.record_per_sheet == 0:
-                headers_list = ["ADDRESS", "STATE", "DISTRICT", "BLOCK", "PIN", "PHONE", "RE_ORDER", "NAME"]
+                headers_list = ["ADDRESS", "STATE", "DISTRICT", "BLOCK", "PIN", "PHONE", "RE_ORDER", "NAME","DISTRICT_FROM_ADDRESS","STATE_FROM_ADDRESS"
+                    ,"DISTRICT_MATCH_COUNT"]
                 wb.add_sheet("Sheet " + str(math.ceil(row_number/self.record_per_sheet)))
                 sheet = wb.get_sheet("Sheet " + str(math.ceil(row_number / self.record_per_sheet)))
                 self.add_headers_to_sheet(sheet, headers_list)
@@ -51,6 +52,9 @@ class MsOffice:
                     sheet.write(row_index, 5, address.phone, style_duplicate)
                     sheet.write(row_index, 6, "YES", style_duplicate)
                     sheet.write(row_index, 7, address.name, style_duplicate)
+                    sheet.write(row_index, 8, address.district_from_address, style_duplicate)
+                    sheet.write(row_index, 9, address.state_from_address, style_duplicate)
+                    sheet.write(row_index, 10, address.occ_count, style_duplicate)
                     continue
 
                 if address.pin is not None and address.phone is not None:
@@ -62,6 +66,9 @@ class MsOffice:
                     sheet.write(row_index, 5, address.phone)
                     sheet.write(row_index, 6, "NO")
                     sheet.write(row_index, 7, address.name)
+                    sheet.write(row_index, 8, address.district_from_address)
+                    sheet.write(row_index, 9, address.state_from_address)
+                    sheet.write(row_index, 10, address.occ_count)
                 elif address.phone is not None:
                     sheet.write(row_index, 0, address.address, style_alert)
                     sheet.write(row_index, 1, address.state, style_alert)
@@ -71,6 +78,9 @@ class MsOffice:
                     sheet.write(row_index, 5, address.phone, style_alert)
                     sheet.write(row_index, 6, "NO", style_alert)
                     sheet.write(row_index, 7, address.name,style_alert)
+                    sheet.write(row_index, 8, address.district_from_address, style_alert)
+                    sheet.write(row_index, 9, address.state_from_address, style_alert)
+                    sheet.write(row_index, 10, address.occ_count, style_alert)
                 else:
                     sheet.write(row_index, 0, address.address, style_warn)
                     sheet.write(row_index, 1, address.state, style_warn)
@@ -80,6 +90,9 @@ class MsOffice:
                     sheet.write(row_index, 5, address.phone, style_warn)
                     sheet.write(row_index, 6, "NO", style_warn)
                     sheet.write(row_index, 7, address.name, style_warn)
+                    sheet.write(row_index, 8, address.district_from_address, style_warn)
+                    sheet.write(row_index, 9, address.state_from_address, style_warn)
+                    sheet.write(row_index, 10, address.occ_count, style_warn)
             except:
                 address.print_attributes()
         wb.save(file_name)
@@ -123,6 +136,10 @@ class MsOffice:
                     re_order = False
                 elif re_order_text == "YES":
                     re_order = True
-                address_obj = Address(address_text, state, district, block, pin, phone, re_order)
+                name = sheet.cell_value(row_index, 7)
+                dfa = sheet.cell_value(row_index, 8)
+                sfa = sheet.cell_value(row_index, 9)
+                oc = sheet.cell_value(row_index, 10)
+                address_obj = Address(address_text, state, district, block, pin, phone, re_order, name, sfa, dfa, oc)
                 address_list.append(address_obj)
         return address_list
