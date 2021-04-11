@@ -4202,10 +4202,10 @@ class DistrictMapper:
         if address_list_token is not None and len(address_list_token) > 0:
             for token in address_list_token:
                 if token is not None and len(token) > 0 and self.dictionary.get(token.lower()) is not None:
-                    count = count + 1
                     dist_state = self.dictionary.get(token.lower())
                     value.append(dist_state)
-        if len(set(value)) == 1:
+        count = len(set(value))
+        if count == 1:
             return value[0], count
 
         dist_state_join = ""

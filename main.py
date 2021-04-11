@@ -57,6 +57,9 @@ class Main:
                     address_obj.set_district_from_address(dist_add)
                     address_obj.set_occ_count(occ_count)
 
+                    address_obj.set_dist_matches_pin_and_addr(
+                        self.utility.is_dist_from_pin_and_addr_same(dist_add, address_obj.district))
+
                     address_list.append(address_obj)
                     # print(address_obj.print_attributes())
                 except:

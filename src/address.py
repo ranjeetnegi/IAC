@@ -1,6 +1,6 @@
 class Address:
     def __init__(self, address, state, district, block, pin, phone, is_reorder=False, name=None, state_from_address= None,
-                 district_from_address=None, count=None):
+                 district_from_address=None, count=None,dist_matches_pin_and_addr=None):
         self.address = address
         self.address_old = address
         self.state = state
@@ -13,6 +13,7 @@ class Address:
         self.state_from_address = state_from_address
         self.district_from_address = district_from_address
         self.occ_count = count
+        self.dist_matches_pin_and_addr = dist_matches_pin_and_addr
 
     def __lt__(self, other):
         val1, val2 = self.__evaluate(other)
@@ -75,3 +76,6 @@ class Address:
 
     def set_occ_count(self, count):
         self.occ_count = count
+
+    def set_dist_matches_pin_and_addr(self, value):
+        self.dist_matches_pin_and_addr = value

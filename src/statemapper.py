@@ -2344,6 +2344,9 @@ class StateMapper:
         return self.dictionary.get(key)
 
     def getStateFromString(self, address):
+        if address is not None:
+            address = address.lower()
+
         for key in self.getKeys():
             if address.find(key.lower()) != -1:
                 return self.dictionary.get(key)

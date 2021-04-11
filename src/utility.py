@@ -200,3 +200,15 @@ class Utility:
         if state is not None:
             return None, state, None
         return None, None, None
+
+    def is_dist_from_pin_and_addr_same(self, dist_add, district):
+        output = "Yes"
+        if dist_add is None:
+            return "No"
+        if district is None:
+            return "No"
+
+        if dist_add.lower() == district.lower() :
+            return output
+        else:
+            return "No"
