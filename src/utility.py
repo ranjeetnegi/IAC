@@ -1,11 +1,13 @@
 from datetime import date, datetime
 import re
 from src.districtmapper import DistrictMapper
+from src.statemapper import StateMapper
 
 
 class Utility:
     def __init__(self):
         self.district_mapper = DistrictMapper()
+        self.state_mapper = StateMapper()
 
     def generate_output_file_name(self, file_base_name, extension):
         now = datetime.now()
