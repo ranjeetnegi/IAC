@@ -185,7 +185,9 @@ class Utility:
     def whatsapp_text(self, address_text):
         address_text = address_text.lower()
         if address_text.find("भेज दी जी सेवा") != -1 or address_text.find("media omitted") != -1 or address_text.find(
-                "this message was deleted") != -1:
+                "this message was deleted") != -1 or address_text.find("end-to-end encrypted") != -1 or address_text.find(
+            "message was deleted") != -1 or address_text.find("security code with") != -1 or address_text.find(
+            "ou added") != -1 or address_text.find("ou removed") != -1:
             return True
         return False
 
@@ -198,8 +200,8 @@ class Utility:
             return dist_state,dist_state,count
         state = self.state_mapper.getStateFromString(address_string)
         if state is not None:
-            return None, state, None
-        return None, None, None
+            return None, state, 0
+        return None, None, 0
 
     def is_string_same(self, dist_add, district):
         output = "YES"
