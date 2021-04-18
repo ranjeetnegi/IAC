@@ -187,7 +187,7 @@ class Utility:
         if address_text.find("भेज दी जी सेवा") != -1 or address_text.find("media omitted") != -1 or address_text.find(
                 "this message was deleted") != -1 or address_text.find("end-to-end encrypted") != -1 or address_text.find(
             "message was deleted") != -1 or address_text.find("security code with") != -1 or address_text.find(
-            "ou added") != -1 or address_text.find("ou removed") != -1:
+            "ou added") != -1 or address_text.find("removed") != -1:
             return True
         return False
 
