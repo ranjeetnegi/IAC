@@ -69,6 +69,7 @@ class PhoneNumber:
         regex_11 = "[6-9]\d{2} \d{2} \d{2} \d{3}"  # "721 76 96 915"
         regex_12 = " [6-9][0-9 ]+"  # "7 2 1 7 6 9 6 9 1 5"
         regex_13 = "[6-9]\d{2} \d{2} \d{5}" #"721 76 96915"
+        regex_14 = "[6-9]\d{4}_\d{5}" #98151_32964
 
 
         regex_1_matches = re.findall(regex_1, text)
@@ -151,6 +152,12 @@ class PhoneNumber:
             for match in set(regex_13_matches):
                 regex_13_replacer = space + pad_word + match.replace(" ", "") + pad_word + space
                 text = text.replace(match, regex_13_replacer)
+
+        regex_14_matches = re.findall(regex_14, text)
+        if len(regex_14_matches) > 0:
+            for match in set(regex_14_matches):
+                regex_14_replacer = space + pad_word + match.replace("_", "") + pad_word + space
+                text = text.replace(match, regex_14_replacer)
         return text
 
     def mobile_number_text_remover(self, text):

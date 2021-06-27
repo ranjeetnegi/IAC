@@ -214,3 +214,41 @@ class Utility:
             return output
         else:
             return "NO"
+
+    def adjust_duplicate(self, add_list):
+        new_address_list = []
+        map = {}
+        for add in add_list:
+            if add.is_reorder and add.phone is not None:
+                key_exists, key = self.has_key(add.phone, map)
+                if key_exists:
+                    map.get(key).append(add)
+                else:
+                    map[key] = [add]
+            else:
+                new_address_list.append(add)
+
+        for key in map.keys():
+            for add in map.get(key):
+                if add is not None:
+                    new_address_list.append(add)
+        return new_address_list
+
+    def has_key(self, phones, dict):
+        phone_list = phones.split(",")
+        if len(phone_list) == 1:
+            if dict.get(phones[0]) is not None:
+                return True, phones[0]
+            else:
+                for key in dict.keys():
+                    if key.find(phones[0]) >= 0:
+                        return True, key
+        elif len(phone_list) > 1:
+            for phone in phone_list:
+                if dict.get(phone) is not None:
+                    return True, phone
+
+            for key in dict.keys():
+                if phones.find(key) >= 0:
+                    return True, phones
+        return False, phones
