@@ -30,12 +30,13 @@ class MsOffice:
         style_warn = xlwt.easyxf("pattern: pattern solid, fore_colour red;")
         style_alert = xlwt.easyxf("pattern: pattern solid, fore_colour yellow;")
         style_duplicate = xlwt.easyxf("pattern: pattern solid, fore_colour brown;")
+        # style_repeat = xlwt.easyxf("pattern: pattern solid, fore_colour pale_blue;")
         row_number = -1
         while row_number < len(address_list):
             row_number = row_number + 1
             if row_number == 0 or row_number % self.record_per_sheet == 0:
                 headers_list = ["ADDRESS", "STATE", "DISTRICT", "BLOCK", "PIN", "PHONE", "RE_ORDER", "NAME","DISTRICT_FROM_ADDRESS","STATE_FROM_ADDRESS"
-                    ,"DISTRICT_MATCH_COUNT","DIST_MATCHES_PIN_AND_ADDR","STATE_MATCHES_PIN_AND_ADDR"]
+                    ,"DISTRICT_MATCH_COUNT","DIST_MATCHES_PIN_AND_ADDR","STATE_MATCHES_PIN_AND_ADDR","BOOK NAME","BOOK LANG"]
                 wb.add_sheet("Sheet " + str(math.ceil(row_number/self.record_per_sheet)))
                 sheet = wb.get_sheet("Sheet " + str(math.ceil(row_number / self.record_per_sheet)))
                 self.add_headers_to_sheet(sheet, headers_list)
@@ -57,6 +58,8 @@ class MsOffice:
                     sheet.write(row_index, 10, address.occ_count, style_duplicate)
                     sheet.write(row_index, 11, address.dist_matches_pin_and_addr, style_duplicate)
                     sheet.write(row_index, 12, address.state_matches_pin_and_addr, style_duplicate)
+                    sheet.write(row_index, 13, address.book_name, style_duplicate)
+                    sheet.write(row_index, 14, address.book_lang, style_duplicate)
                     continue
 
                 if address.pin is not None and address.phone is not None:
@@ -73,6 +76,8 @@ class MsOffice:
                     sheet.write(row_index, 10, address.occ_count)
                     sheet.write(row_index, 11, address.dist_matches_pin_and_addr)
                     sheet.write(row_index, 12, address.state_matches_pin_and_addr)
+                    sheet.write(row_index, 13, address.book_name)
+                    sheet.write(row_index, 14, address.book_lang)
                 elif address.phone is not None:
                     sheet.write(row_index, 0, address.address, style_alert)
                     sheet.write(row_index, 1, address.state, style_alert)
@@ -87,6 +92,8 @@ class MsOffice:
                     sheet.write(row_index, 10, address.occ_count, style_alert)
                     sheet.write(row_index, 11, address.dist_matches_pin_and_addr,style_alert)
                     sheet.write(row_index, 12, address.state_matches_pin_and_addr,style_alert)
+                    sheet.write(row_index, 13, address.book_name, style_alert)
+                    sheet.write(row_index, 14, address.book_lang, style_alert)
                 else:
                     sheet.write(row_index, 0, address.address, style_warn)
                     sheet.write(row_index, 1, address.state, style_warn)
@@ -101,6 +108,8 @@ class MsOffice:
                     sheet.write(row_index, 10, address.occ_count, style_warn)
                     sheet.write(row_index, 11, address.dist_matches_pin_and_addr,style_warn)
                     sheet.write(row_index, 12, address.state_matches_pin_and_addr, style_alert)
+                    sheet.write(row_index, 13, address.book_name, style_alert)
+                    sheet.write(row_index, 14, address.book_lang, style_alert)
             except:
                 address.print_attributes()
         wb.save(file_name)

@@ -49,6 +49,10 @@ class Address:
             data = data + ",Phone:" + self.phone
         if self.address is not None:
             data = data + " Address:" + self.address
+        if self.book_name is not None:
+            data = data + " Book Name:" + self.book_name
+        if self.book_lang is not None:
+            data = data + " Book Language:" + self.book_lang
         data = data + " Is reorder: " + str(self.is_reorder)
         print(data)
 

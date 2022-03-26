@@ -191,8 +191,7 @@ class BookMapper:
         }
 
     def get_book_from_address_record(self, address_string):
-        address_list_token = address_string.split(" ")
-        if address_list_token is not None and len(address_list_token) > 0:
-            for token in address_list_token:
-                if token is not None and len(token) > 0 and self.dictionary.get(token) is not None:
-                    return self.dictionary.get(token)
+        if len(address_string) > 0:
+            for book_name in self.dictionary:
+                if address_string.find(book_name) != -1:
+                    return self.dictionary[book_name]
