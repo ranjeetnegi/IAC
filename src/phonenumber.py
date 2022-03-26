@@ -190,7 +190,7 @@ class PhoneNumber:
                         address_obj.is_reorder = is_reorder
                     else:
                         self.phone_lookup.save_phone_number(int(phone))
-                phones_as_string = ",".join(phone_list)
+                phones_as_string = " , ".join(phone_list)
                 address_obj.phone = phones_as_string
                 address_obj.address = address_obj.address + " PH " + phones_as_string
                 address_obj.address = self.utility.white_space_cleaner(address_obj.address)
