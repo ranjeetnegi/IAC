@@ -11,6 +11,8 @@ from src.msoffice import MsOffice
 from src.phone_number_lookup import PhoneNumberLookup
 from src.statemapper import StateMapper
 from src.districtmapper import DistrictMapper
+from src.bookmapper import BookMapper
+from src.langmapper import LanguageMapper
 
 
 class Main:
@@ -25,6 +27,8 @@ class Main:
         self.utility = Utility()
         self.state_mapper = StateMapper()
         self.district_mapper = DistrictMapper()
+        self.book_mapper = BookMapper()
+        self.lang_mapper = LanguageMapper()
 
 
     def process_addresses(self, addresses_file_text):
@@ -61,6 +65,8 @@ class Main:
                         self.utility.is_string_same(dist_add, address_obj.district))
                     address_obj.set_state_matches_pin_and_addr(
                         self.utility.is_string_same(state_add, address_obj.state))
+                    address_obj.set_book_name(self.book_mapper.get_book_from_address_record(address_string))
+                    address_obj.set_book_lang(self.lang_mapper.get_book_lang_from_address_record(address_string))
 
                     address_list.append(address_obj)
                     # print(address_obj.print_attributes())
