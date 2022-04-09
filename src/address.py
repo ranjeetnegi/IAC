@@ -54,7 +54,7 @@ class Address:
         if self.book_lang is not None:
             data = data + " Book Language:" + self.book_lang
         if self.is_repeat is not None:
-            data = data + " repeat :" + self.is_repeat
+            data = data + " repeat : " + str(self.is_repeat)
         data = data + " Is reorder: " + str(self.is_reorder)
         print(data)
 

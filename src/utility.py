@@ -1,14 +1,15 @@
 from datetime import date, datetime
 import re
 from src.districtmapper import DistrictMapper
+from src.phone_number_lookup import PhoneNumberLookup
 from src.statemapper import StateMapper
 
 
 class Utility:
-    def __init__(self, phone_lookup):
+    def __init__(self):
         self.district_mapper = DistrictMapper()
         self.state_mapper = StateMapper()
-        self.phone_lookup = phone_lookup
+        self.phone_lookup = PhoneNumberLookup()
 
     def generate_output_file_name(self, file_base_name, extension):
         now = datetime.now()
@@ -259,10 +260,9 @@ class Utility:
         for address in address_list:
             if address.phone is not None:
                 phone_set = set(address.phone.split(","))
-                if len(phone_set & phone_number_set) > 1:
+                if len(phone_set & phone_number_set) > 0:
                     address.is_repeat = True
                 phone_number_set.update(phone_set)
-
                 for phone in phone_set:
                     is_reorder = self.phone_lookup.search_phone_number(phone)
                     if is_reorder:

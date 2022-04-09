@@ -30,7 +30,7 @@ class MsOffice:
         style_warn = xlwt.easyxf("pattern: pattern solid, fore_colour red;")
         style_alert = xlwt.easyxf("pattern: pattern solid, fore_colour yellow;")
         style_duplicate = xlwt.easyxf("pattern: pattern solid, fore_colour brown;")
-        style_repeat = xlwt.easyxf("pattern: pattern solid, fore_colour pale_blue;")
+        style_repeat = xlwt.easyxf("pattern: pattern solid, fore_colour gray25;")
         row_number = -1
         while row_number < len(address_list):
             row_number = row_number + 1
@@ -44,24 +44,6 @@ class MsOffice:
             address = address_list[row_number - 1]
             row_index = (row_number % self.record_per_sheet)
             try:
-                if address.is_reorder:
-                    sheet.write(row_index, 0, address.address_old, style_duplicate)
-                    sheet.write(row_index, 1, address.state, style_duplicate)
-                    sheet.write(row_index, 2, address.district, style_duplicate)
-                    sheet.write(row_index, 3, address.block, style_duplicate)
-                    sheet.write(row_index, 4, address.pin, style_duplicate)
-                    sheet.write(row_index, 5, address.phone, style_duplicate)
-                    sheet.write(row_index, 6, "YES", style_duplicate)
-                    sheet.write(row_index, 7, address.name, style_duplicate)
-                    sheet.write(row_index, 8, address.district_from_address, style_duplicate)
-                    sheet.write(row_index, 9, address.state_from_address, style_duplicate)
-                    sheet.write(row_index, 10, address.occ_count, style_duplicate)
-                    sheet.write(row_index, 11, address.dist_matches_pin_and_addr, style_duplicate)
-                    sheet.write(row_index, 12, address.state_matches_pin_and_addr, style_duplicate)
-                    sheet.write(row_index, 13, address.book_name, style_duplicate)
-                    sheet.write(row_index, 14, address.book_lang, style_duplicate)
-                    continue
-
                 if address.is_repeat:
                     sheet.write(row_index, 0, address.address_old, style_repeat)
                     sheet.write(row_index, 1, address.state, style_repeat)
@@ -78,6 +60,24 @@ class MsOffice:
                     sheet.write(row_index, 12, address.state_matches_pin_and_addr, style_repeat)
                     sheet.write(row_index, 13, address.book_name, style_repeat)
                     sheet.write(row_index, 14, address.book_lang, style_repeat)
+                    continue
+
+                if address.is_reorder:
+                    sheet.write(row_index, 0, address.address_old, style_duplicate)
+                    sheet.write(row_index, 1, address.state, style_duplicate)
+                    sheet.write(row_index, 2, address.district, style_duplicate)
+                    sheet.write(row_index, 3, address.block, style_duplicate)
+                    sheet.write(row_index, 4, address.pin, style_duplicate)
+                    sheet.write(row_index, 5, address.phone, style_duplicate)
+                    sheet.write(row_index, 6, "YES", style_duplicate)
+                    sheet.write(row_index, 7, address.name, style_duplicate)
+                    sheet.write(row_index, 8, address.district_from_address, style_duplicate)
+                    sheet.write(row_index, 9, address.state_from_address, style_duplicate)
+                    sheet.write(row_index, 10, address.occ_count, style_duplicate)
+                    sheet.write(row_index, 11, address.dist_matches_pin_and_addr, style_duplicate)
+                    sheet.write(row_index, 12, address.state_matches_pin_and_addr, style_duplicate)
+                    sheet.write(row_index, 13, address.book_name, style_duplicate)
+                    sheet.write(row_index, 14, address.book_lang, style_duplicate)
                     continue
 
                 if address.pin is not None and address.phone is not None:
