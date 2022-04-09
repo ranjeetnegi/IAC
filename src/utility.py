@@ -5,9 +5,10 @@ from src.statemapper import StateMapper
 
 
 class Utility:
-    def __init__(self):
+    def __init__(self, phone_lookup):
         self.district_mapper = DistrictMapper()
         self.state_mapper = StateMapper()
+        self.phone_lookup = phone_lookup
 
     def generate_output_file_name(self, file_base_name, extension):
         now = datetime.now()
@@ -252,3 +253,19 @@ class Utility:
                 if phones.find(key) >= 0:
                     return True, phones
         return False, phones
+
+    def update_reorder_and_repeat(self, address_list):
+        phone_number_set = set()
+        for address in address_list:
+            if address.phone is not None:
+                phone_set = set(address.phone.split(","))
+                if len(phone_set & phone_number_set) > 1:
+                    address.is_repeat = True
+                phone_number_set.update(phone_set)
+
+                for phone in phone_set:
+                    is_reorder = self.phone_lookup.search_phone_number(phone)
+                    if is_reorder:
+                        address.is_reorder = is_reorder
+                    else:
+                        self.phone_lookup.save_phone_number(int(phone))

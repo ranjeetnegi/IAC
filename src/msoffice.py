@@ -30,7 +30,7 @@ class MsOffice:
         style_warn = xlwt.easyxf("pattern: pattern solid, fore_colour red;")
         style_alert = xlwt.easyxf("pattern: pattern solid, fore_colour yellow;")
         style_duplicate = xlwt.easyxf("pattern: pattern solid, fore_colour brown;")
-        # style_repeat = xlwt.easyxf("pattern: pattern solid, fore_colour pale_blue;")
+        style_repeat = xlwt.easyxf("pattern: pattern solid, fore_colour pale_blue;")
         row_number = -1
         while row_number < len(address_list):
             row_number = row_number + 1
@@ -45,7 +45,7 @@ class MsOffice:
             row_index = (row_number % self.record_per_sheet)
             try:
                 if address.is_reorder:
-                    sheet.write(row_index, 0, address.address, style_duplicate)
+                    sheet.write(row_index, 0, address.address_old, style_duplicate)
                     sheet.write(row_index, 1, address.state, style_duplicate)
                     sheet.write(row_index, 2, address.district, style_duplicate)
                     sheet.write(row_index, 3, address.block, style_duplicate)
@@ -62,8 +62,26 @@ class MsOffice:
                     sheet.write(row_index, 14, address.book_lang, style_duplicate)
                     continue
 
+                if address.is_repeat:
+                    sheet.write(row_index, 0, address.address_old, style_repeat)
+                    sheet.write(row_index, 1, address.state, style_repeat)
+                    sheet.write(row_index, 2, address.district, style_repeat)
+                    sheet.write(row_index, 3, address.block, style_repeat)
+                    sheet.write(row_index, 4, address.pin, style_repeat)
+                    sheet.write(row_index, 5, address.phone, style_repeat)
+                    sheet.write(row_index, 6, "", style_repeat)
+                    sheet.write(row_index, 7, address.name, style_repeat)
+                    sheet.write(row_index, 8, address.district_from_address, style_repeat)
+                    sheet.write(row_index, 9, address.state_from_address, style_repeat)
+                    sheet.write(row_index, 10, address.occ_count, style_repeat)
+                    sheet.write(row_index, 11, address.dist_matches_pin_and_addr, style_repeat)
+                    sheet.write(row_index, 12, address.state_matches_pin_and_addr, style_repeat)
+                    sheet.write(row_index, 13, address.book_name, style_repeat)
+                    sheet.write(row_index, 14, address.book_lang, style_repeat)
+                    continue
+
                 if address.pin is not None and address.phone is not None:
-                    sheet.write(row_index, 0, address.address)
+                    sheet.write(row_index, 0, address.address_old)
                     sheet.write(row_index, 1, address.state)
                     sheet.write(row_index, 2, address.district)
                     sheet.write(row_index, 3, address.block)
@@ -79,7 +97,7 @@ class MsOffice:
                     sheet.write(row_index, 13, address.book_name)
                     sheet.write(row_index, 14, address.book_lang)
                 elif address.phone is not None:
-                    sheet.write(row_index, 0, address.address, style_alert)
+                    sheet.write(row_index, 0, address.address_old, style_alert)
                     sheet.write(row_index, 1, address.state, style_alert)
                     sheet.write(row_index, 2, address.district, style_alert)
                     sheet.write(row_index, 3, address.block, style_alert)
@@ -95,7 +113,7 @@ class MsOffice:
                     sheet.write(row_index, 13, address.book_name, style_alert)
                     sheet.write(row_index, 14, address.book_lang, style_alert)
                 else:
-                    sheet.write(row_index, 0, address.address, style_warn)
+                    sheet.write(row_index, 0, address.address_old, style_warn)
                     sheet.write(row_index, 1, address.state, style_warn)
                     sheet.write(row_index, 2, address.district, style_warn)
                     sheet.write(row_index, 3, address.block, style_warn)
