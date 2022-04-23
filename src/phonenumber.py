@@ -185,11 +185,11 @@ class PhoneNumber:
                     phone = highlighted_phone.replace("*", "")
                     phone_list.append(phone)
                     address_obj.address = address_obj.address.replace(highlighted_phone, "").strip()
-                    is_reorder = self.phone_lookup.search_phone_number(phone)
-                    if is_reorder:
-                        address_obj.is_reorder = is_reorder
-                    else:
-                        self.phone_lookup.save_phone_number(int(phone))
+                    # is_reorder = self.phone_lookup.search_phone_number(phone)
+                    # if is_reorder:
+                    #     address_obj.is_reorder = is_reorder
+                    # else:
+                    #     self.phone_lookup.save_phone_number(int(phone))
                 phones_as_string = " , ".join(phone_list)
                 address_obj.phone = phones_as_string
                 address_obj.address = address_obj.address + " PH " + phones_as_string
@@ -201,8 +201,8 @@ class PhoneNumber:
                 address_obj.address = (address_obj.address.replace(highlighted_phone, "").strip() + " PH " + phone)
                 address_obj.address = self.utility.white_space_cleaner(address_obj.address)
                 address_obj.phone = phone
-                is_reorder = self.phone_lookup.search_phone_number(phone)
-                address_obj.is_reorder = is_reorder
-                if not is_reorder:
-                    self.phone_lookup.save_phone_number(int(phone))
-                return is_reorder
+                # is_reorder = self.phone_lookup.search_phone_number(phone)
+                # address_obj.is_reorder = is_reorder
+                # if not is_reorder:
+                #     self.phone_lookup.save_phone_number(int(phone))
+                # return is_reorder

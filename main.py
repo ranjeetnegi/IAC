@@ -76,7 +76,8 @@ class Main:
                     #print("-------------------------")
                     print("Error address: " + address_obj.address)
 
-        address_list.sort()
+        address_list.sort(key=lambda x: len(x.address_old), reverse=True)
+        self.utility.update_reorder_and_repeat(address_list)
         return address_list
 
     def main(self):
